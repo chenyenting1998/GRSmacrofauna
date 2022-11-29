@@ -17,16 +17,9 @@ load_all()
 document()
 
 # estimate biovolume and biomass
-OR1_1219_macro_size <-
+size <-
   OR1_1219_macro_mea %>%
-  mutate(Type = NULL) %>%
-  assign_method(method_file = biovolume_method) %>%
-  calculate_biovolume() %>%
-  calculate_ophiuroid_size(ophiuroid_method = "all_arms",
-                           grouping_variables = c("Cruise", "Habitat",
-                                                  "Station", "Deployment", 'Tube', "Section"))
-OR1_1242_macro_size <-
-  OR1_1242_macro_mea %>%
+  full_join(OR1_1242_macro_mea) %>%
   mutate(Type = NULL) %>%
   assign_method(method_file = biovolume_method) %>%
   calculate_biovolume() %>%
@@ -35,5 +28,5 @@ OR1_1242_macro_size <-
                                                   "Station", "Deployment", 'Tube', "Section"))
 
 # output data
-use_data(OR1_1219_macro_size, overwrite = TRUE)
-use_data(OR1_1242_macro_size, overwrite = TRUE)
+use_data(size, overwrite = TRUE)
+document()

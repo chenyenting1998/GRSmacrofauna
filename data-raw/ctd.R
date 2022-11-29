@@ -38,6 +38,6 @@ grs_ctd_raw = grs_ctd_raw[,.(Cruise,
                              Transmission = transmissometer)]
 
 # subset downcast ####
-GRS_ctd = grs_ctd_raw[,.SD[1:which.max(Pressure)], by = .(Cruise, Station)]
+ctd = grs_ctd_raw[,.SD[1:which.max(Pressure)], by = .(Cruise, Station)]
 
-use_data(GRS_ctd, overwrite = TRUE)
+use_data(ctd, overwrite = TRUE)

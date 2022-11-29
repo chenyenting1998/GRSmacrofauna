@@ -60,7 +60,7 @@ calculate_ophiuroid_size <- function(data,
     oph_sum_cleaned <-
       oph_sum %>%
       filter(!ind %in% c("Arm", "Disc")) %>%
-      mutate(Condition = "C", Method = "Coumpound")
+      mutate(Condition = "C", Type = "Coumpound")
 
     oph_sum_cleaned$ind <- NULL
 
@@ -91,7 +91,7 @@ calculate_ophiuroid_size <- function(data,
       group_by(across(all_of(oph_max_size_sum_group))) %>%
       # group
       summarise(Size = sum(Size)) %>%
-      mutate(Method = "Compound", Condition = "C")
+      mutate(Type = "Compound", Condition = "C")
 
     oph_max_size_sum$ind <- NULL
 

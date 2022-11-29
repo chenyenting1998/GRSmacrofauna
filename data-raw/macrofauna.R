@@ -117,5 +117,5 @@ OR1_1219_macro_mea <- OR1_1219_macro_mea[!OR1_1219_macro_mea$Station %in% c("GS1
 OR1_1242_macro_mea <- OR1_1242_macro_mea[!OR1_1242_macro_mea$Station %in% c("GS1", "GC1"),]
 
 # output
-use_data(OR1_1219_macro_mea, overwrite = TRUE)
-use_data(OR1_1242_macro_mea, overwrite = TRUE)
+use_data(OR1_1219_macro_mea, internal = TRUE, overwrite = TRUE)
+use_data(OR1_1242_macro_mea, internal = TRUE, overwrite = TRUE)
