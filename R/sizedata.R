@@ -26,6 +26,4 @@
 NULL
 
 #' @rdname sizedata
-"OR1_1219_macro_size"
-#' @rdname sizedata
-"OR1_1242_macro_size"
+"size"

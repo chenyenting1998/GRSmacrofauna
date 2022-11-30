@@ -3,18 +3,13 @@
 \docType{data}
 \name{sizedata}
 \alias{sizedata}
-\alias{OR1_1219_macro_size}
-\alias{OR1_1242_macro_size}
+\alias{size}
 \title{Individual size data of all cruises}
 \format{
-An object of class \code{data.frame} with 1329 rows and 14 columns.
-
-An object of class \code{data.frame} with 1271 rows and 14 columns.
+An object of class \code{data.frame} with 2597 rows and 14 columns.
 }
 \usage{
-OR1_1219_macro_size
-
-OR1_1242_macro_size
+size
 }
 \description{
 Individual size data of all cruises

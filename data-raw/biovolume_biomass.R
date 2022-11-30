@@ -27,6 +27,12 @@ size <-
                            grouping_variables = c("Cruise", "Habitat",
                                                   "Station", "Deployment", 'Tube', "Section"))
 
+# remove insecta and sea pen
+size <-
+  size %>%
+  filter(Taxon != "Insecta") %>%
+  filter(Taxon != "Sea pen")
+
 # output data
 use_data(size, overwrite = TRUE)
 document()
