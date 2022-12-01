@@ -13,7 +13,7 @@ library(devtools)
 library(testthat)
 library(knitr)
 library(roxygen2)
-# load_all()
+load_all()
 
 # read OR1_1219 data --------
 or1_1219_macro_raw =
@@ -52,7 +52,7 @@ or1_1219_poly$Section = as.character(or1_1219_poly$Section)
 or1_1219_poly$Section = "0-10"
 
 # merge data
-OR1_1219_macro_mea = merge(as.data.frame(or1_1219_macro_raw[Taxon != "Polychaeta",]), or1_1219_poly, all = TRUE)
+OR1_1219_macro_mea = merge(as.data.frame(or1_1219_macro_raw), or1_1219_poly, all = TRUE)
 
 # read OR1_1242 data ----
 or1_1242_macro_raw =

@@ -6,7 +6,7 @@
 \alias{size}
 \title{Individual size data of all cruises}
 \format{
-An object of class \code{data.frame} with 2597 rows and 14 columns.
+An object of class \code{data.frame} with 2985 rows and 14 columns.
 }
 \usage{
 size
