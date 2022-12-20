@@ -78,6 +78,9 @@ ou <-
   left_join(tou, dou) %>%
   mutate(BOU = TOU-DOU) %>%
   relocate(BOU, .after = DOU)
+str(ou)
 
+ou$Deployment <- as.double(ou$Deployment)
+ou$Tube <- as.double(ou$Tube)
 # output data
 use_data(ou, overwrite = TRUE)
