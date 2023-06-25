@@ -16,7 +16,7 @@
 #'                    data.
 #' @return
 #' @export
-#'
+#' @details The original `Type` column will be overwritten with the `Type` provided in `method_file`.
 #' @examples
 #' # the default estimation method for each available taxon.
 #' biovolume_method
@@ -64,11 +64,13 @@ assign_method <- function(data, method_file = NULL) {
     data %>%
     # use !duplicate to keep the unassigned individuals
     filter(!Taxon %in% dup_taxa_method$Taxon) %>%
+    select(-Type) %>%
     left_join(uni_taxa_method, by = "Taxon")
 
   result_duplicate <-
     data %>%
     filter(Taxon %in% dup_taxa_method$Taxon) %>%
+    select(-Type) %>%
     left_join(dup_taxa_method, by = c("Taxon", "Note"))
 
   # assign conversion factors for organisms that uses LWR
@@ -78,7 +80,7 @@ assign_method <- function(data, method_file = NULL) {
     cat("The following observations do not have methods", "\n")
     print(output[is.na(output$Type),])
   }
-    output
+    return(output)
 }
 
 
