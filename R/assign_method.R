@@ -1,8 +1,8 @@
-#' @title  Assign volume estimation method in to each individuals
+#' @title  Assign volume estimation methods to each individual
 #'
 #' @description This function adds the following two columns to your original data frame:
 #'      \itemize{
-#'      \item \code{Type} : This column stores the method for volume calculation.
+#'      \item \code{Type} : This column stores the type for volume calculation.
 #'      \item \code{C} : This column stores the conversion factors for individuals that uses
 #'                       length-weight relationships for biomass calculation.
 #'      }
@@ -47,10 +47,10 @@ assign_method <- function(data, method_file = NULL) {
     stop("method file is neither NULL or an object")
   }
 
-  # identify dup taxa
+  # identify duplicated taxa
   dup_taxa <- unique(method_file$Taxon[duplicated(method_file$Taxon)])
 
-  # separate method file into unique and duplicate cases
+  # separate method file into unique and duplicated cases
   dup_taxa_method <-
     method_file[method_file$Taxon %in% dup_taxa,] %>%
     select(Taxon, Note, Type, C)
@@ -59,7 +59,7 @@ assign_method <- function(data, method_file = NULL) {
     method_file[!method_file$Taxon %in% dup_taxa_method$Taxon,] %>%
     select(Taxon, Type, C)
 
-  # left join
+  # combining columns
   result_unique <-
     data %>%
     # use !duplicate to keep the unassigned individuals
