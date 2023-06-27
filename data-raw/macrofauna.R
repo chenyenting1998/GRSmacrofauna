@@ -1,121 +1,163 @@
-################################
-### macrofauna data cleaning ###
-################################
+#############################
+### Macrofauna data cleaning
+#############################
+# Author: Yen-Ting Chen
+# Date of creation: unknown
+# Last date of modification: 2023/06/25
 
+##############
 # Description
-# Cleaning macrofauna data by merging data from Yen-Ting and Yen-Li
+##############
+# Cleaning macrofauna data by merging data from Yen-Ting Chen and Yen-Li Liu
 
-library(readxl)
-library(dplyr)
+################
+# Load packages
+################
+# dev packages
 library(usethis)
-library(data.table)
 library(devtools)
 library(testthat)
 library(knitr)
 library(roxygen2)
-load_all()
+load_all() # load GRSmacrofauna
 
-# read OR1_1219 data --------
-or1_1219_macro_raw =
+library(readxl)
+library(dplyr)
+
+
+#################
+# load functions
+#################
+
+# capwords (originated from toupper example)
+# capitalizes the first letter of a character
+capwords <- function(s, strict = FALSE) {
+  cap <- function(s) paste(toupper(substring(s, 1, 1)),
+                           {s <- substring(s, 2); if(strict) tolower(s) else s},
+                           sep = "", collapse = " " )
+  sapply(strsplit(s, split = " "), cap, USE.NAMES = !is.null(names(s)))
+}
+
+# add habitat (only use this function in this script)
+# add canyon/slope/shelf regarding station name
+add_habitat <- function(data){
+  data$Habitat <- if_else(data$Station %in% "GC1", "Canyon", data$Habitat)
+  data$Habitat <- if_else(data$Station %in% "GS1", "Slope", data$Habitat)
+  data$Habitat <- if_else(data$Station %in% paste0("S",1:10), "Shelf", data$Habitat)
+  return(data)
+}
+
+# clean_data (only use this function in this script)
+# a bundle function for data cleaning
+clean_data <- function(data){
+  data_cleaned <-
+    data %>%
+    mutate(Cruise = gsub("_", "-", Cruise)) %>% # change _ in Cruise to -
+    mutate(Section = "0-10") %>% # add section
+    mutate(Type = capwords(Type)) %>% # capitalize first letter of type
+    mutate(Habitat = as.character(Habitat)) %>% # convert class to character
+    add_habitat() # add habitat
+
+  return(data_cleaned)
+}
+
+#############################################################
+# 1. Read OR1_1219 data and exclude polychaete measurements
+#############################################################
+or1_1219_macro_raw <-
   read_xlsx("data-raw/OR1_1219_macro_size_final.xlsx",
-            col_types = c(rep("guess", 7), rep("text", 2), rep("guess", 8))) %>%
-  setDT()
+            col_types = c(rep("guess", 7), rep("text", 2), rep("guess", 8)))
 
-# remove S7-2-3
-or1_1219_macro_raw <- or1_1219_macro_raw[!(or1_1219_macro_raw$Station == "S7" & or1_1219_macro_raw$Tube == 3)]
+# there are erroneous measurements in OR1-1219 S7-2-3
+# remove S7-2-3 data from the original data.frame
+or1_1219_macro_raw <-
+  or1_1219_macro_raw %>%
+  filter(!(Station == "S7" & Deployment == 2 & Tube == 3))
 
-# add the revised S7-2-3
+# import corrected S7-2-3 data
 S7_2_3 <-
   read_xlsx("data-raw/OR1-1219_S7-2-3.xlsx",
-            col_types = c(rep("guess", 7), rep("text", 2), rep("guess", 8))) %>%
-  setDT()
+            col_types = c(rep("guess", 7), rep("text", 2), rep("guess", 8)))
 
-# merge data
-or1_1219_macro_raw = merge(or1_1219_macro_raw, S7_2_3, all = TRUE)
-
-# add section
-or1_1219_macro_raw$Section <- "0-10"
-
-# read 0r1_1219_poly ----
-or1_1219_poly =
-  read_xlsx("data-raw/OR1_1219_polychaeta_size.xlsx",
-            col_types = c(rep("guess", 7), rep("text", 2), rep("guess", 8))) %>%
-  setDT()
-
-# reset column order
-setcolorder(or1_1219_poly, colnames(or1_1219_macro_raw))
+# merge S7-2-3 with the old measurement data
+or1_1219_macro_raw <- full_join(or1_1219_macro_raw, S7_2_3)
 
 # data cleaning
-or1_1219_poly$Deployment = as.numeric( gsub(".*-", "",or1_1219_poly$Station))
-or1_1219_poly$Station = gsub("-.*", "",or1_1219_poly$Station)
-or1_1219_poly$Section = as.character(or1_1219_poly$Section)
-or1_1219_poly$Section = "0-10"
+or1_1219_macro_raw <-
+  or1_1219_macro_raw %>%
+  assign_type() %>%
+  clean_data() %>%
+  filter(Taxon != "Polychaeta")
 
-# merge data
-OR1_1219_macro_mea = merge(as.data.frame(or1_1219_macro_raw), or1_1219_poly, all = TRUE)
-
-# read OR1_1242 data ----
-or1_1242_macro_raw =
+#############################################################
+# 2. Read OR1_1242 data and exclude polychaete measurements
+#############################################################
+or1_1242_macro_raw <-
   read_xlsx("data-raw/OR1_1242_macro_size_final.xlsx",
-            col_types = c(rep("guess", 7), rep("text", 2), rep("guess", 8))) %>%
-  setDT()
+            col_types = c(rep("guess", 7), rep("text", 2), rep("guess", 8)))
 
-setcolorder(or1_1242_macro_raw, colnames(or1_1219_macro_raw))
-
-# read and process or1_1242 poly ----
-or1_1242_poly =
-  read_xlsx("data-raw/OR1_1242_polychaeta_size.xlsx",
-            col_types = c(rep("guess", 7), rep("text", 2), rep("guess", 7))) %>%
-  setDT()
-or1_1242_poly$Note <- NA
-
-# set column order
-setcolorder(or1_1242_poly, colnames(or1_1219_macro_raw))
+#
+or1_1242_macro_raw[or1_1242_macro_raw$Taxon == "Sea pen", "Taxon"] <- "Unknown"
 
 # data cleaning
-or1_1242_poly$Section = as.character(or1_1242_poly$Section)
-or1_1242_poly$Section = "0-10"
+or1_1242_macro_raw <-
+  or1_1242_macro_raw %>%
+  assign_type() %>%
+  clean_data() %>%
+  filter(Taxon != "Polychaeta") # remove polychaeta
 
-# merge data
-OR1_1242_macro_mea = merge(or1_1242_macro_raw[Taxon != "Polychaeta",], or1_1242_poly, all = TRUE)
+###########################################
+# 3. Read OR1_1219 polychaete measurements
+###########################################
+# note that Mrs. Liu calculated polychaetes with two geometric shapes
+# ellipsoids for sternaspids, cylinder for the rest
+or1_1219_poly <-
+  read_xlsx("data-raw/OR1_1219 polychaeta size.xlsx",
+            col_types = c(rep("guess", 7), rep("text", 2), rep("guess", 8)))
 
-# remove redundant data ------------
-rfgab <- function(data){
-  data$Family <- NULL
-  data$Genus <- NULL
-  data$a <- NULL
-  data$b <- NULL
-  data
-}
+# data cleaning
+or1_1219_poly <- clean_data(or1_1219_poly)
 
-OR1_1219_macro_mea <- rfgab(OR1_1219_macro_mea)
-OR1_1242_macro_mea <- rfgab(OR1_1242_macro_mea)
+###########################################
+# 4. read or1_1242 polychaete measurements
+###########################################
+# note that Mrs. Liu calculated polychaetes with two geometric shapes
+# ellipsoids for sternaspids, cylinder for the rest
+or1_1242_poly <-
+  read_xlsx("data-raw/OR1_1242_polychaeta_size.xlsx",
+            col_types = c(rep("guess", 7), rep("text", 2), rep("guess", 7)))
 
-# add habitat -----
-add_habitat <- function(data, criteria, output){
-  if_else(data$Station %in% criteria,
-          output,
-          data$Habitat)
-}
+# data cleaning
+or1_1242_poly <- clean_data(or1_1242_poly)
 
-# 1219
-OR1_1219_macro_mea$Habitat <- add_habitat(OR1_1219_macro_mea, "GS1", "Slope")
-OR1_1219_macro_mea$Habitat <- add_habitat(OR1_1219_macro_mea, "GC1", "Canyon")
-OR1_1219_macro_mea$Habitat <- add_habitat(OR1_1219_macro_mea, paste0(rep("S", 7), 1:7), "Shelf")
+#############
+# 5. Outputs
+#############
+# Combined raw measurements for all GRS stations
+macrofauna_measurements <-
+  # combining data.frames
+  full_join(or1_1219_macro_raw, or1_1242_macro_raw) %>%
+  full_join(or1_1219_poly) %>%
+  full_join(or1_1242_poly) %>%
+  # arrange rows by categorical variables
+  arrange(Cruise, Station, Deployment, Tube, Taxon) %>%
+  # relocate columns
+  relocate(Type, .after = Condition) %>%
+  relocate(C, .after = W) %>%
+  mutate(Size = NULL) # delete the column 'Size'
 
-# 1242
-OR1_1242_macro_mea$Habitat <- add_habitat(OR1_1242_macro_mea, "GS1", "Slope")
-OR1_1242_macro_mea$Habitat <- add_habitat(OR1_1242_macro_mea, "GC1", "Canyon")
-OR1_1242_macro_mea$Habitat <- add_habitat(OR1_1242_macro_mea, paste0(rep("S", 7), 1:7), "Shelf")
-
-# Cruise _ to - ====
-OR1_1219_macro_mea$Cruise <- gsub("_", "-", OR1_1219_macro_mea$Cruise)
-OR1_1242_macro_mea$Cruise <- gsub("_", "-", OR1_1242_macro_mea$Cruise)
-
-# remove data containing GC1 and GS1 ====
-OR1_1219_macro_mea <- OR1_1219_macro_mea[!OR1_1219_macro_mea$Station %in% c("GS1", "GC1"),]
-OR1_1242_macro_mea <- OR1_1242_macro_mea[!OR1_1242_macro_mea$Station %in% c("GS1", "GC1"),]
+# calculating biovolume
+grouping_variables <- c("Cruise", "Habitat", "Station", "Deployment", "Tube", "Section")
+macrofauna_biomass <-  # calculate ind. biomass
+  calculate_biovolume(macrofauna_measurements) %>%
+  calculate_ophiuroid_size(ophiuroid_method = "all_arms",
+                           grouping_variables = grouping_variables) %>%
+  # assuming 1.13 specific density (Gerlach et al., 1985)
+  mutate(WM = Size * 1.13) %>%
+  # relocate columns
+  relocate(Size, .before = Note) %>%
+  relocate(WM, .after = Size)
 
 # output
-use_data(OR1_1219_macro_mea, internal = TRUE, overwrite = TRUE)
-use_data(OR1_1242_macro_mea, internal = TRUE, overwrite = TRUE)
+use_data(macrofauna_measurements, overwrite = TRUE)
+use_data(macrofauna_biomass, overwrite = TRUE)
