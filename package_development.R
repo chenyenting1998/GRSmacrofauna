@@ -14,10 +14,7 @@
 ################
 # Load packages
 ################
-library(readxl)
-library(dplyr)
 library(usethis)
-library(data.table)
 library(devtools)
 library(testthat)
 library(knitr)
