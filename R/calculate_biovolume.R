@@ -1,11 +1,10 @@
-#' @title calculate biovolume of each individual
+#' @title Calculate the biovolume of each individual
 #' @description Calculates biovolume of each individual with its assigned method.
 #' @param data A long format data containing columns of Length (L), Width (W), and body shape type (Type).
 #'
-#' @return The same data frame except that a new column called "Size" contains the volume data.
+#' @return The same data frame with a new column called "Size" contains the volume data.
 #' @export
 #' @details Note that this function will first remove all the entries in the `Size` column.
-#'          Another thing is that this function is not flexible enough. Further revision is needed.
 #' @examples
 #' a <- data.frame(
 #'   L = c(10, 5, 6, 78, 1, 6),
@@ -79,6 +78,6 @@ calculate_biovolume <- function(data) {
     print(data[is.na(data$Size),])
   }
 
-  data
+  return(data)
 }
 
