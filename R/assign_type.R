@@ -1,4 +1,4 @@
-#' @title  Assign volume estimation methods to each individual
+#' @title  Assign volume estimation types to each individual
 #'
 #' @description This function adds the following two columns to your original data frame:
 #'      \itemize{
@@ -9,20 +9,20 @@
 #'
 #' @param data The data that records observations of each individuals size measurements
 #'             with at least the following column: "Taxon"
-#' @param method_file The file that contains the pairwise biovolume estimation method.
-#'                    Note that the method file has a specific format to follow. See
-#'                    \code{biovolume method} for more information.
-#'                    If NULL, the method file will use the default "biovolume_method"
+#' @param type_file The file that contains the pairwise biovolume estimation type.
+#'                    Note that the type file has a specific format to follow. See
+#'                    \code{biovolume type} for more information.
+#'                    If NULL, the type file will use the default "biovolume_type"
 #'                    data.
 #' @return
 #' @export
-#' @details The original `Type` column will be overwritten with the `Type` provided in `method_file`.
+#' @details The original `Type` column will be overwritten with the `Type` provided in `type_file`.
 #' @examples
-#' # the default estimation method for each available taxon.
-#' biovolume_method
+#' # the default estimation type for each available taxon.
+#' biovolume_type
 #' a <- data.frame(Taxon = c("Polychaeta", "Oligochaeta", "Sipuncula", "Not in the column"))
-#' assign_method(a)
-assign_method <- function(data, method_file = NULL) {
+#' assign_type(a)
+assign_type <- function(data, type_file = NULL) {
 
   # initial if_else control flow --------------------------------------------
   if (is.character(data)) {
@@ -38,46 +38,48 @@ assign_method <- function(data, method_file = NULL) {
     stop("Neither measurement_file nor object")
   }
 
-  # assign method -----------------------------------------------------------
-  if (is.null(method_file)) {
-    method_file <- biovolume_method
-  } else if (is.object(method_file)) {
-    method_file <- method_file
+  # assign type -----------------------------------------------------------
+  if (is.null(type_file)) {
+    type_file <- biovolume_type
+  } else if (is.object(type_file)) {
+    type_file <- type_file
   } else {
-    stop("method file is neither NULL or an object")
+    stop("type file is neither NULL or an object")
   }
 
   # identify duplicated taxa
-  dup_taxa <- unique(method_file$Taxon[duplicated(method_file$Taxon)])
+  dup_taxa <- unique(type_file$Taxon[duplicated(type_file$Taxon)])
 
-  # separate method file into unique and duplicated cases
-  dup_taxa_method <-
-    method_file[method_file$Taxon %in% dup_taxa,] %>%
+  # separate type file into unique and duplicated cases
+  # duplicated
+  dup_taxa_type <-
+    type_file[type_file$Taxon %in% dup_taxa,] %>%
     select(Taxon, Note, Type, C)
 
-  uni_taxa_method <-
-    method_file[!method_file$Taxon %in% dup_taxa_method$Taxon,] %>%
+  # unique
+  uni_taxa_type <-
+    type_file[!type_file$Taxon %in% dup_taxa_type$Taxon,] %>%
     select(Taxon, Type, C)
 
   # combining columns
   result_unique <-
     data %>%
     # use !duplicate to keep the unassigned individuals
-    filter(!Taxon %in% dup_taxa_method$Taxon) %>%
+    filter(!Taxon %in% dup_taxa_type$Taxon) %>%
     select(-Type) %>%
-    left_join(uni_taxa_method, by = "Taxon")
+    left_join(uni_taxa_type, by = "Taxon")
 
   result_duplicate <-
     data %>%
-    filter(Taxon %in% dup_taxa_method$Taxon) %>%
+    filter(Taxon %in% dup_taxa_type$Taxon) %>%
     select(-Type) %>%
-    left_join(dup_taxa_method, by = c("Taxon", "Note"))
+    left_join(dup_taxa_type, by = c("Taxon", "Note"))
 
   # assign conversion factors for organisms that uses LWR
   output <- full_join(result_unique, result_duplicate)
 
   if (any(is.na(output$Type))) {
-    cat("The following observations do not have methods", "\n")
+    cat("The following observations do not have types", "\n")
     print(output[is.na(output$Type),])
   }
     return(output)
