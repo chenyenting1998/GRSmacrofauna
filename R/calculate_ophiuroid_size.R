@@ -1,10 +1,11 @@
-#' @title Combine arm and disc size of ophiuroids
-#' @description Note that this function only works under my measure
+#' @title Combine of ophiuroids' arm and disc volume
+#' @description Note that this function only works under my measurement
 #'              protocol for ophiuroids. If you use different measurement protocols
 #'              while using this function, dubious results might appear. See
 #'              example for more insight.
 #'
-#' @param data A long format data that had their biovolume stored in the column "Size".
+#' @param data A long format data that had their biovolume stored in the column "Size" and
+#'             required comments stored in the column "Note".
 #' @param protocol_ophiuroid Currently have two options:.
 #' \itemize{
 #'   \item \code{all_arms}: calculate the biovolume of one ophiuroid by simply add all the arms and
@@ -18,7 +19,9 @@
 #'                           prevent individuals across different samples from being added
 #'                           together.
 #'
-#' @return The modified input data with the size of the ophiuroids manipulated
+#' @return The modified input data with the size of the ophiuroids manipulated.
+#'         Length and width will be left as NA. Conditions of all individuals are
+#'         noted as complete (C).
 #' @export
 #'
 #' @examples
@@ -27,8 +30,8 @@
 #'   Size = runif(6, min = 1, max = 5),
 #'   Note = c("Dics-1", rep("Arm-1", 4), "Arm")
 #' )
-#' define_ophiuroid_size(data = a, protocol = "all_arms")
-#' define_ophiuroid_size(data = a, protocol = "longest_arm")
+#' calculate_ophiuroid_size(data = a, protocol = "all_arms")
+#' calculate_ophiuroid_size(data = a, protocol = "longest_arm")
 calculate_ophiuroid_size <- function(data,
                                   ophiuroid_method,
                                   grouping_variables) {
@@ -40,9 +43,9 @@ calculate_ophiuroid_size <- function(data,
   oph_split <-
     oph %>%
     mutate(
-      Note = gsub("-.*", "", oph$Note), # body parts
-      ind = gsub(".*-", "", oph$Note)
-    ) # individual tags
+      Note = gsub("-.*", "", oph$Note), # Extract body parts in "Note"
+      ind = gsub(".*-", "", oph$Note) # extract the numbers in "Note" as individual tags
+    )
 
   if (ophiuroid_method == "all_arms") {
 
