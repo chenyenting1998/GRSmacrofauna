@@ -42,43 +42,54 @@ calculate_biovolume <- function(data) {
   }
 
   # calculate biovolume -----------------------------------------------------
-  data <-
+  data_sizeNA <-
     data %>%
     mutate(Size = NA_real_) # add column and/or remove previous calculations
 
-  # LWR
-  data$Size <-
-    if_else(data$Type == "LWR",
-            lwr(data$L, data$W, data$C),
-            data$Size)
-
-  # cylinder
-  data$Size <-
-    if_else(data$Type == "Cylinder",
-            cylinder(data$L, data$W),
-            data$Size)
-
-  # cone
-  data$Size <-
-    if_else(data$Type == "Cone",
-            cone(data$L, data$W),
-            data$Size)
-
-  # ellipsoid
-  data$Size <-
-    if_else(data$Type == "Ellipsoid",
-            ellipsoid(data$L, data$W),
-            data$Size)
+  # # LWR
+  # data$Size <-
+  #   if_else(data$Type == "LWR",
+  #           lwr(data$L, data$W, data$C),
+  #           data$Size)
+  #
+  # # cylinder
+  # data$Size <-
+  #   if_else(data$Type == "Cylinder",
+  #           cylinder(data$L, data$W),
+  #           data$Size)
+  #
+  # # cone
+  # data$Size <-
+  #   if_else(data$Type == "Cone",
+  #           cone(data$L, data$W),
+  #           data$Size)
+  #
+  # # ellipsoid
+  # data$Size <-
+  #   if_else(data$Type == "Ellipsoid",
+  #           ellipsoid(data$L, data$W),
+  #           data$Size)
+  data_size_calculated <-
+    data_sizeNA %>%
+    mutate(
+      Size = case_when(
+        Type == "LWR" ~ lwr(Length = L, Width = W, Conversion_factor = C),
+        Type == "Cylinder" ~ cylinder(Length = L, Width = W),
+        Type == "Cone" ~ cone(Length = L, Width = W),
+        Type == "Ellipsoid" ~ ellipsoid(Length = L, Width = W),
+        TRUE ~ NA_real_
+      )
+    )
 
   # final check
-  size_logic <- is.na(data$Size)
+  size_logic <- is.na(data_size_calculated$Size)
   # I did not block the output if there is no Size outputs.
   if(sum(size_logic) != length(size_logic)){
     # I add a comment on whether individuals have size calculated.
     cat("Caution: One or more individuals have no Size outputs.")
-    print(data[is.na(data$Size),])
+    print(data[is.na(data_size_calculated$Size),])
   }
 
-  return(data)
+  return(data_size_calculated)
 }
 
