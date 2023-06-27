@@ -2,12 +2,13 @@
 % Please edit documentation in R/calculate_ophiuroid_size.R
 \name{calculate_ophiuroid_size}
 \alias{calculate_ophiuroid_size}
-\title{Combine arm and disc size of ophiuroids}
+\title{Combine of ophiuroids' arm and disc volume}
 \usage{
 calculate_ophiuroid_size(data, ophiuroid_method, grouping_variables)
 }
 \arguments{
-\item{data}{A long format data that had their biovolume stored in the column "Size".}
+\item{data}{A long format data that had their biovolume stored in the column "Size" and
+required comments stored in the column "Note".}
 
 \item{grouping_variables}{A character vector of the subset of column names. The variables
 should at least include the dates, stations, and replicates to
@@ -24,10 +25,12 @@ same length as the longest arms.
 }}
 }
 \value{
-The modified input data with the size of the ophiuroids manipulated
+The modified input data with the size of the ophiuroids manipulated.
+Length and width will be left as NA. Conditions of all individuals are
+noted as complete (C).
 }
 \description{
-Note that this function only works under my measure
+Note that this function only works under my measurement
 protocol for ophiuroids. If you use different measurement protocols
 while using this function, dubious results might appear. See
 example for more insight.
@@ -38,6 +41,6 @@ a <- data.frame(
   Size = runif(6, min = 1, max = 5),
   Note = c("Dics-1", rep("Arm-1", 4), "Arm")
 )
-define_ophiuroid_size(data = a, protocol = "all_arms")
-define_ophiuroid_size(data = a, protocol = "longest_arm")
+calculate_ophiuroid_size(data = a, protocol = "all_arms")
+calculate_ophiuroid_size(data = a, protocol = "longest_arm")
 }
