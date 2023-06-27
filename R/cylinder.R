@@ -10,5 +10,6 @@
 #' @examples
 #' Cylinder(15, 0.75)
 cylinder <- function(Length, Width) {
-  Length * (Width / 2) * (Width / 2) * pi
+  x <- Length * (Width / 2) * (Width / 2) * pi
+  return(x)
 }

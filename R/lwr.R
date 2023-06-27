@@ -12,5 +12,6 @@
 #' @examples
 #' LWR(10, 20, 0.5)
 lwr <- function(Length, Width, Conversion_factor) {
-  Length * Width * Width * Conversion_factor
+  x <- Length * Width * Width * Conversion_factor
+  return(x)
 }

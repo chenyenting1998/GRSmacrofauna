@@ -10,5 +10,6 @@
 #' @examples
 #' Ellipsoid(10, 5)
 ellipsoid <- function(Length, Width) {
-  4 / 3 * pi * (Length / 2) * (Width / 2) * (Width / 2)
+  x <- 4 / 3 * pi * (Length / 2) * (Width / 2) * (Width / 2)
+  return(x)
 }

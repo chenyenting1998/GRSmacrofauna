@@ -10,5 +10,6 @@
 #' @examples
 #' Cone(30, 1)
 cone <- function(Length, Width) {
-  Length * (Width / 2) * (Width / 2) * pi / 3
+  x <- Length * (Width / 2) * (Width / 2) * pi / 3
+  return(x)
 }
