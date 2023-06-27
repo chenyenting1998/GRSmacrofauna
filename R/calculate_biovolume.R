@@ -70,10 +70,11 @@ calculate_biovolume <- function(data) {
             ellipsoid(data$L, data$W),
             data$Size)
 
-
-    # final check
+  # final check
   size_logic <- is.na(data$Size)
+  # I did not block the output if there is no Size outputs.
   if(sum(size_logic) != length(size_logic)){
+    # I add a comment on whether individuals have size calculated.
     cat("Caution: One or more individuals have no Size outputs.")
     print(data[is.na(data$Size),])
   }

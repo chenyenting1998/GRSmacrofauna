@@ -2,7 +2,7 @@
 % Please edit documentation in R/calculate_biovolume.R
 \name{calculate_biovolume}
 \alias{calculate_biovolume}
-\title{calculate biovolume of each individual}
+\title{Calculate the biovolume of each individual}
 \usage{
 calculate_biovolume(data)
 }
@@ -10,14 +10,13 @@ calculate_biovolume(data)
 \item{data}{A long format data containing columns of Length (L), Width (W), and body shape type (Type).}
 }
 \value{
-The same data frame except that a new column called "Size" contains the volume data.
+The same data frame with a new column called "Size" contains the volume data.
 }
 \description{
 Calculates biovolume of each individual with its assigned method.
 }
 \details{
 Note that this function will first remove all the entries in the \code{Size} column.
-Another thing is that this function is not flexible enough. Further revision is needed.
 }
 \examples{
 a <- data.frame(
