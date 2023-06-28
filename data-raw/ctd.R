@@ -16,6 +16,18 @@
 library(readxl)
 library(dplyr)
 
+#################
+# Load functions
+#################
+# add habitat (only use this function in this script)
+# add canyon/slope/shelf regarding station name
+add_habitat <- function(data){
+  data$Habitat <- if_else(data$Station %in% "GC1", "Canyon", data$Habitat)
+  data$Habitat <- if_else(data$Station %in% "GS1", "Slope", data$Habitat)
+  data$Habitat <- if_else(data$Station %in% paste0("S",1:10), "Shelf", data$Habitat)
+  return(data)
+}
+
 ###############
 # 1. Load data
 ###############
@@ -56,10 +68,11 @@ grs_ctd_raw_cleaned <-
 # 3. subset downcast
 #####################
 ctd <-
-  grs_ctd_raw_cleaned %>%
+  add_habitat(grs_ctd_raw_cleaned) %>%
   # lag() returns the value of the previous cell
   # the `default` option makes sure that there will be no missing values
-  filter(Pressure > lag(Pressure, default = Pressure[1]))
+  filter(Pressure > lag(Pressure, default = Pressure[1])) %>%
+  relocate(Habitat, .after = Cruise)
 
 ############
 # 4. output
