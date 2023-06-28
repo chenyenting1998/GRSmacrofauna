@@ -1,59 +1,92 @@
 ########################################
 ### bottom environment data cleaning ###
 ########################################
+# Author: Yen-Ting Chen
+# Date of creation: unknown
+# Last date of modification: 2023/06/28
 
+##############
 # Description
-# Cleaning bottom environment data into downcasts and bottom water
+##############
+# Allocating sediment geochemical data, bottom CTD data, and distance to river.
 
+################
+# Load packages
+################
 library(readxl)
 library(dplyr)
-library(data.table)
 library(geosphere)
-load_all()
 
+# dev packages
+library(usethis)
+library(devtools)
+library(testthat)
+library(knitr)
+library(roxygen2)
+load_all() # load GRSmacrofauna
+
+############################
+# 1. Load bottom water data
+############################
 # extract ctd bottom water data
-bw <- GRS_ctd[GRS_ctd[, Pressure == max(Pressure), by = .(Cruise, Station)]$V1]
+bw <-
+  ctd %>%
+  group_by(Cruise, Station) %>%
+  filter(Pressure %in% max(Pressure))
 
-# load sediment data
-sed <- read_xlsx("data-raw/PR_GPR_Sediment_2021.06.20_ys.xlsx",
-                 col_types = c(rep("text", 4), rep("numeric", 16))) %>%
-  setDT
+########################
+# 2. load sediment data
+########################
+sed <-
+  read_xlsx("data-raw/PR_GPR_Sediment_2021.06.20_ys.xlsx",
+            col_types = c(rep("text", 4), rep("numeric", 16)))
 
 # Cruise _ to -
 sed$Cruise <- gsub("_", "-", sed$Cruise)
-
 # subset GRS data
-sed <- sed[Station %in% paste0("S", 1:7), ]
+sed <- sed %>% filter(Station %in% paste0("S", 1:7))
 
-# removing section, deployment, WW, DW, TNd15, chla, pheo
-col_sel <- c("Cruise", "Station", "d50", "Clay", "Silt", "Sand", "CN", "TOC", "TN", "WC", "TOCd13", "Chla*", "Porosity")
-sed <- sed[,..col_sel]
+# omitting section, deployment, WW, DW, TNd15, chla, pheo
+col_sel <- c("Cruise", "Station",
+             "d50", "Clay", "Silt", "Sand",
+             "TOC", "TN", "CN", "TOCd13", "Chla*", "WC", "Porosity")
+sed <- sed %>% select(all_of(col_sel))
 
 # porosity into %
 sed$Porosity <- sed$Porosity * 100
-# Chla* to Chla
-colnames(sed)[colnames(sed) == "Chla*"] <- "Chla"
+
+# rename columns
+colnames(sed)[colnames(sed) == "Chla*"] <- "Chla" # rename chlorphyll a
+colnames(sed)[colnames(sed) == "TOCd13"] <- "delta13C" # rename delta13C
+colnames(sed)[colnames(sed) == "d50"] <- "D50" # rename D50
 
 # combine bottom water and sediment data
-env <- merge(bw, sed, by = c("Cruise", "Station"))
+env <- full_join(bw, sed)
 
-# read depth
-depth <- read_xlsx("data-raw/depth.xlsx") %>% setDT()
-grs_depth <- depth[Station %in% paste0("S", 1:7), ]
+###############################
+# 3. Change pressure to  depth
+###############################
+depth <- read_xlsx("data-raw/depth.xlsx")
+grs_depth <- depth %>% filter(Station %in% paste0("S", 1:7))
 grs_depth$Cruise <- gsub("_", "-", grs_depth$Cruise)
 
 # combine env with depth
-env <- merge(env, grs_depth, by = c("Cruise", "Station"))
+env <- full_join(env, grs_depth)
 env$Pressure <- NULL
 
+#################################
+# 4. Add distance to river mouth
+#################################
 # calculate distance to river mouth
 GRM <- c(120.423960, 22.470504) # gaoping rivermouth
 env$DRM <- distm(x = env[,c("Longitude", "Latitude")], y = GRM, fun = distGeo)/1000
 
 # relocate columns
-setcolorder(env, c("Cruise", "Station", "Date", "Latitude", "Longitude", "Depth", "DRM",
-                   "Temperature", "Salinity", "Sigma-Theta", "Density", "Oxygen", "Fluorescence", "Transmission",
-                   "d50", "Clay", "Silt", "Sand", "CN", "TOC", "TN", "WC", "TOCd13", "Chla", "Porosity"))
-
+env
+env <- env[,c("Cruise", "Habitat", "Station", "Date", "Latitude", "Longitude", "Depth", "DRM",
+       "Temperature", "Salinity", "SigmaTheta", "Density", "Oxygen", "Fluorescence", "Transmission",
+       "Sand", "Silt", "Clay", "D50",
+       "TOC", "TN", "CN", "delta13C", "Chla", "WC", "Porosity")]
+View(env)
 # output
 use_data(env, overwrite = TRUE)

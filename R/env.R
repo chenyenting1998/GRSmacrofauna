@@ -1,0 +1,40 @@
+#' @title Seafloor environmental data
+#'
+#' @docType data
+#' @author Yen-Ting Chen \email{r08241220@@ntu.edu.tw}
+#' @details  The condition and unit of each column were listed below.
+#'   \itemize{
+#'      \item{\code{Cruise}} The cruise during sampling.
+#'      \item{\code{Habitat}} Habitat type (shelf, slope, canyon)
+#'      \item{\code{Station}} Sampling station.
+#'      \item{\code{Date}} Date recorded in YYYY-MM-DD.
+#'      \item{\code{Latitude}} Latitude in decimals.
+#'      \item{\code{Longitude}} Longitude in decimals.
+#'      \item{\code{Depth}} Water depth in meters.
+#'      \item{\code{DRM}} The distance to the river mouth (DRM) in kilometers.
+#'      \item{\code{Temperature}} Bottom water temperature in Celcius.
+#'      \item{\code{Salinity}} Bottom water salinity in Practical salinity unit (PSU).
+#'      \item{\code{SigmaTheta}} Bottom water potential density anomaly (Sigma-Theta) in kg/m^3.
+#'      \item{\code{Density}} Bottom water potential density in kg/m^3.
+#'      \item{\code{Oxygen}} Bottom water dissolved oxygen in mg/L.
+#'      \item{\code{Fluorescence}} Bottom water-estimated chlorophyll concentration in mg/L.
+#'      \item{\code{Transmission}} Bottom water light transmission in percent.
+#'      \item{\code{Sand}} Percent sand.
+#'      \item{\code{Silt}} Percent silt.
+#'      \item{\code{Clay}} Percent clay.
+#'      \item{\code{D50}} Median grain size in um.
+#'      \item{\code{TOC}} Total organic carbon in percent.
+#'      \item{\code{TN}} Total nitrogen in percent.
+#'      \item{\code{CN}} Total organic carbon to total nitrogen ratio.
+#'      \item{\code{delta13C}} Stable isotopic carbon in per million.
+#'      \item{\code{Chla}} Sediment chlorophyll a in ng/g dry.
+#'      \item{\code{WC}} Sediment water content in percent.
+#'      \item{\code{Porosity}} Sediment porosity in percent.
+#' }
+#'
+#' @name env
+#' @keywords datasets
+NULL
+
+#' @rdname env
+"env"
