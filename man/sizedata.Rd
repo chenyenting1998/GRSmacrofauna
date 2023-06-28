@@ -3,13 +3,18 @@
 \docType{data}
 \name{sizedata}
 \alias{sizedata}
-\alias{size}
+\alias{macrofauna_measurements}
+\alias{macrofauna_biomass}
 \title{Individual size data of all cruises}
 \format{
-An object of class \code{data.frame} with 2985 rows and 14 columns.
+An object of class \code{data.frame} with 3980 rows and 17 columns.
+
+An object of class \code{data.frame} with 3403 rows and 19 columns.
 }
 \usage{
-size
+macrofauna_measurements
+
+macrofauna_biomass
 }
 \description{
 Individual size data of all cruises
@@ -18,21 +23,27 @@ Individual size data of all cruises
 The condition and unit of each column were listed below.
 \itemize{
 \item{\code{Cruise}} The cruise during sampling.
-\item{\code{Habitat}} Habitat type (Shelf, slope, canyon)
+\item{\code{Habitat}} Habitat type (shelf, slope, canyon)
 \item{\code{Station}} Sampling station.
 \item{\code{Deployment}} Number of deployment.
 \item{\code{Tube}} Order of tubes.
 \item{\code{Section}} sampled section in cm
 \item{\code{Taxon}} Recorded grouping taxa of the specimen
+\item{\code{Family}} Recorded family of the specimen
+\item{\code{Genus}} Recorded genus of the specimen
 \item{\code{Condition}} The condition of the specimen
+\item{\code{Type}} The respective geometric shapes for biovolume estimation
 \item{\code{L}} maximum body length in mm
 \item{\code{W}} maximum body length in mm
-\item{\code{size}} the volume of the specimen in mm^3
-\item{\code{Note}} Comments and further information for the specimen
-\item{\code{Type}} The respective geometric shapes for biovolume estimation
 \item{\code{C}} The conversion factors for biovolume estimation
-\item{\code{WM}} wet mass in mg
+\item{\code{Size}} The volume of the specimen in mm^3
+\item{\code{WM}} Wet mass in mg; calculated from \code{Size} with the assumption
+of 1.13 specific gravity (Gerlach et al., 1985)
+\item{\code{Note}} Comments and further information for the specimen
 }
+}
+\references{
+
 }
 \author{
 Yen-Ting Chen \email{r08241220@ntu.edu.tw}
