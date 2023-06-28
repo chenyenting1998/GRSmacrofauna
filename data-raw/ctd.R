@@ -24,7 +24,7 @@ library(dplyr)
 add_habitat <- function(data){
   data$Habitat <- if_else(data$Station %in% "GC1", "Canyon", data$Habitat)
   data$Habitat <- if_else(data$Station %in% "GS1", "Slope", data$Habitat)
-  data$Habitat <- if_else(data$Station %in% paste0("S",1:10), "Shelf", data$Habitat)
+  data$Habitat <- if_else(data$Station %in% paste0("S",1:7), "Shelf", data$Habitat)
   return(data)
 }
 
@@ -36,7 +36,7 @@ all_ctd_raw <- read_xlsx("data-raw/GPSC_CTD_2021.03.19.xlsx")
 
 # subset ctd data ####
 grs_cruise <- c("OR1_1242", "OR1_1219")
-grs_station <- paste0("S", 1:9)
+grs_station <- paste0("S", 1:7)
 grs_ctd_raw <-
   all_ctd_raw %>%
   filter(Cruise %in% grs_cruise & Station %in% grs_station)
