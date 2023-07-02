@@ -3,27 +3,39 @@
 \docType{data}
 \name{ou}
 \alias{ou}
-\title{Oxygen utilization data}
+\alias{tou}
+\alias{dou}
+\title{Sediment oxygen community utilization data}
 \format{
-An object of class \code{data.frame} with 33 rows and 8 columns.
+An object of class \code{data.frame} with 33 rows and 10 columns.
+
+An object of class \code{data.frame} with 94 rows and 11 columns.
 }
 \usage{
-ou
+tou
+
+dou
 }
 \description{
-Oxygen utilization data
+Sediment oxygen community utilization data
 }
 \details{
 The condition and unit of each column were listed below.
 \itemize{
 \item{\code{Cruise}} The cruise during sampling.
+\item{\code{Habitat}} Habitat type (shelf, slope, canyon)
 \item{\code{Station}} Sampling station.
+\item{\code{Date}} Date recorded in YYYY-MM-DD.
 \item{\code{Deployment}} Number of deployment.
 \item{\code{Tube}} Order of tubes.
-\item{\code{TOU}} Total oxygen utilization of the sediment (mmol/m2/d).
-\item{\code{DOU}} Dissolved oxygen utilzation of the sediment (mmol/m2/d).
-\item{\code{BOU}} Benthic-meidated oxygen utilization of the sediment. Derived by subtracting TOU with DOU.
-\item{\code{OPD}} Oxygen penetration depth (cm).
+\item{\code{Channel}} Microelectrode channels; only in \code{dou} data set.
+\item{\code{Incub_temperature}} Incubated water temperature in Celcius.
+\item{\code{Incub_TOU}} Incubated total oxygen utilization in mmol/m^2/d^1.
+\item{\code{Incub_DOU}} Incubated dissolved oxygen utilization in mmol/m^2/d^1.
+\item{\code{In_situ_temperature}} Bottom water temperature in Celcius.
+\item{\code{In_situ_TOU}} In situ total oxygen utilization in mmol/m^2/d^1.
+\item{\code{In_situ_DOU}} In situ dissolved oxygen utilization in mmol/m^2/d^1.
+\item{\code{OPD}} Oxygen penetration depth in cm.
 }
 }
 \author{
