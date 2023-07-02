@@ -10,12 +10,7 @@ calculate_ophiuroid_size(data, ophiuroid_method, grouping_variables)
 \item{data}{A long format data that had their biovolume stored in the column "Size" and
 required comments stored in the column "Note".}
 
-\item{grouping_variables}{A character vector of the subset of column names. The variables
-should at least include the dates, stations, and replicates to
-prevent individuals across different samples from being added
-together.}
-
-\item{protocol_ophiuroid}{Currently have two options:.
+\item{ophiuroid_method}{Currently have two options:.
 \itemize{
 \item \code{all_arms}: calculate the biovolume of one ophiuroid by simply add all the arms and
 and their respective disc.
@@ -23,6 +18,11 @@ and their respective disc.
 that is still attached to the disc and assume all arms are of the
 same length as the longest arms.
 }}
+
+\item{grouping_variables}{A character vector of the subset of column names. The variables
+should at least include the dates, stations, and replicates to
+prevent individuals across different samples from being added
+together.}
 }
 \value{
 The modified input data with the size of the ophiuroids manipulated.
