@@ -1,4 +1,4 @@
-#' Add coarse taxon for complex taxon names
+#' Add coarse taxa for complex taxon names
 #'
 #' @param data A data frame with a column named \code{Taxon}
 #' @param match_file A data.frame with at least two columns. One of the columns
@@ -12,11 +12,11 @@
 #' @examples
 #' a <- data.frame(Taxon = c("Polychaeta", "Nematoda", "Hydrozoa"))
 #' add_coarse_taxon(data = a, match_file = NULL, output = "Phylum")
-add_coarse_taxon <- function(data, match_file = NULL, output = "Phylum") {
+add_coarse_taxa <- function(data, match_file = NULL, output = "Phylum") {
 
   # if match_file left NULL, match_file = default
   if (is.null(match_file)) {
-    match_file <- coarse_taxon
+    match_file <- coarse_taxa
   }
 
   if(!is.null(match_file) & is.object(match_file)) {
@@ -49,5 +49,5 @@ add_coarse_taxon <- function(data, match_file = NULL, output = "Phylum") {
   data$output <- result
   colnames(data)[ncol(data)] <- output
 
-  data
+  return(data)
 }
