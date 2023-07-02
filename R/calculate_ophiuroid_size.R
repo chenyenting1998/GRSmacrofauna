@@ -6,7 +6,7 @@
 #'
 #' @param data A long format data that had their biovolume stored in the column "Size" and
 #'             required comments stored in the column "Note".
-#' @param protocol_ophiuroid Currently have two options:.
+#' @param ophiuroid_method Currently have two options:.
 #' \itemize{
 #'   \item \code{all_arms}: calculate the biovolume of one ophiuroid by simply add all the arms and
 #'                   and their respective disc.
