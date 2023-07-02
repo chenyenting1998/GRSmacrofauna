@@ -11,7 +11,7 @@
 #'
 #' @examples
 #' a <- data.frame(Taxon = c("Polychaeta", "Nematoda", "Hydrozoa"))
-#' add_coarse_taxon(data = a, match_file = NULL, output = "Phylum")
+#' add_coarse_taxa(data = a, match_file = NULL, output = "Phylum")
 add_coarse_taxa <- function(data, match_file = NULL, output = "Phylum") {
 
   # if match_file left NULL, match_file = default
