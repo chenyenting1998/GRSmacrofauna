@@ -1,4 +1,4 @@
-#' @title Individual size data of all cruises
+#' @title Individual macrofauna size data
 #'
 #' @docType data
 #' @author Yen-Ting Chen \email{r08241220@@ntu.edu.tw}

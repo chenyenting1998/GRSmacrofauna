@@ -1,4 +1,4 @@
-#' @title Calculate the biovolume of each individual
+#' @title Calculate the biovolume of each individual with their respective body shape types
 #' @description Calculates biovolume of each individual with its assigned method.
 #' @param data A long format data containing columns of Length (L), Width (W), and body shape type (Type).
 #'

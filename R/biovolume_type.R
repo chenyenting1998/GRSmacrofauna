@@ -1,4 +1,4 @@
-#' @title Biovolume type
+#' @title Macrofauna biovolume type
 #' @description This data documents the biovolume estimation methods
 #'              respective to each taxon.
 #'  \itemize{

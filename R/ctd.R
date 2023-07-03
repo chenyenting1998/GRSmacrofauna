@@ -1,4 +1,4 @@
-#' @title CTD downcast measurements
+#' @title CTD downcast profiles
 #'
 #' @docType data
 #' @author Yen-Ting Chen \email{r08241220@@ntu.edu.tw}

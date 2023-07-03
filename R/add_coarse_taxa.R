@@ -1,4 +1,4 @@
-#' Add coarse taxa for complex taxon names
+#' @title Add coarse taxa for high resoluted taxon names
 #'
 #' @param data A data frame with a column named \code{Taxon}
 #' @param match_file A data.frame with at least two columns. One of the columns
