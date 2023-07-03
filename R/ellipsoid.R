@@ -8,7 +8,7 @@
 #' @export
 #'
 #' @examples
-#' Ellipsoid(10, 5)
+#' ellipsoid(10, 5)
 ellipsoid <- function(Length, Width) {
   x <- 4 / 3 * pi * (Length / 2) * (Width / 2) * (Width / 2)
   return(x)

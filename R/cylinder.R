@@ -8,7 +8,7 @@
 #' @export
 #'
 #' @examples
-#' Cylinder(15, 0.75)
+#' cylinder(15, 0.75)
 cylinder <- function(Length, Width) {
   x <- Length * (Width / 2) * (Width / 2) * pi
   return(x)

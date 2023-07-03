@@ -8,7 +8,7 @@
 #' @export
 #'
 #' @examples
-#' Cone(30, 1)
+#' cone(30, 1)
 cone <- function(Length, Width) {
   x <- Length * (Width / 2) * (Width / 2) * pi / 3
   return(x)
