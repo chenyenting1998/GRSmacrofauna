@@ -7,8 +7,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "R08241220@ntu.edu.tw")
 Description: The data and functions used for analyzing the macrofauna community in the Gaoping Continental Shelf.
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
@@ -16,6 +15,6 @@ RoxygenNote: 7.1.1
 Imports:
     dplyr,
     tidyr,
-    data.table
+    magrittr
 Depends: 
     R (>= 2.10)
