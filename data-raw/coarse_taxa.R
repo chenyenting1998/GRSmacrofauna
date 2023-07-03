@@ -11,5 +11,4 @@ coarse_taxa <- read_xlsx("data-raw/coarse_taxa.xlsx")
 usethis::use_data(coarse_taxa, overwrite = TRUE)
 
 
-devtools::load_all()
 devtools::document()
