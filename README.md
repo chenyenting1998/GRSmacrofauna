@@ -1,7 +1,7 @@
 # GRSmacrofauna
 
 # Description
-This is a data package containing biological data, environmental data, and self-defined R functions.
+This is a data package containing biological and environmental data collected in the Gaoping River-shelf sediments. A set of self-defined R functions are also included in this package.
 
 Data includes:
  - `macrofauna_measurments`: Individual macrofauna taxa and measurments
