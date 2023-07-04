@@ -32,24 +32,34 @@ library(dplyr)
 # capwords (originated from toupper example)
 # capitalizes the first letter of a character
 capwords <- function(s, strict = FALSE) {
-  cap <- function(s) paste(toupper(substring(s, 1, 1)),
-                           {s <- substring(s, 2); if(strict) tolower(s) else s},
-                           sep = "", collapse = " " )
+  cap <- function(s)
+    paste(toupper(substring(s, 1, 1)),
+          {
+            s <- substring(s, 2)
+            if (strict)
+              tolower(s)
+            else
+              s
+          },
+          sep = "", collapse = " ")
   sapply(strsplit(s, split = " "), cap, USE.NAMES = !is.null(names(s)))
 }
 
 # add habitat (only use this function in this script)
 # add canyon/slope/shelf regarding station name
-add_habitat <- function(data){
-  data$Habitat <- if_else(data$Station %in% "GC1", "Canyon", data$Habitat)
-  data$Habitat <- if_else(data$Station %in% "GS1", "Slope", data$Habitat)
-  data$Habitat <- if_else(data$Station %in% paste0("S",1:10), "Shelf", data$Habitat)
+add_habitat <- function(data) {
+  data$Habitat <-
+    if_else(data$Station %in% "GC1", "Canyon", data$Habitat)
+  data$Habitat <-
+    if_else(data$Station %in% "GS1", "Slope", data$Habitat)
+  data$Habitat <-
+    if_else(data$Station %in% paste0("S", 1:10), "Shelf", data$Habitat)
   return(data)
 }
 
 # clean_data (only use this function in this script)
 # a bundle function for data cleaning
-clean_data <- function(data){
+clean_data <- function(data) {
   data_cleaned <-
     data %>%
     mutate(Cruise = gsub("_", "-", Cruise)) %>% # change _ in Cruise to -
@@ -147,7 +157,8 @@ macrofauna_measurements <-
   mutate(Size = NULL) # delete the column 'Size'
 
 # calculating biovolume
-grouping_variables <- c("Cruise", "Habitat", "Station", "Deployment", "Tube", "Section")
+grouping_variables <-
+  c("Cruise", "Habitat", "Station", "Deployment", "Tube", "Section")
 macrofauna_biomass <-  # calculate ind. biomass
   calculate_biovolume(macrofauna_measurements) %>%
   calculate_ophiuroid_size(ophiuroid_method = "all_arms",
