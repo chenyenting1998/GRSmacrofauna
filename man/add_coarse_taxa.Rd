@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_coarse_taxa.R
 \name{add_coarse_taxa}
 \alias{add_coarse_taxa}
-\title{Add coarse taxa for complex taxon names}
+\title{Add coarse taxa for high resoluted taxon names}
 \usage{
 add_coarse_taxa(data, match_file = NULL, output = "Phylum")
 }
@@ -19,7 +19,7 @@ restricted and shall be passed to the \code{output} arguement.}
 
 }
 \description{
-Add coarse taxa for complex taxon names
+Add coarse taxa for high resoluted taxon names
 }
 \examples{
 a <- data.frame(Taxon = c("Polychaeta", "Nematoda", "Hydrozoa"))

@@ -3,7 +3,7 @@
 \docType{data}
 \name{biovolume_type}
 \alias{biovolume_type}
-\title{Biovolume type}
+\title{Macrofauna biovolume type}
 \format{
 An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 44 rows and 6 columns.
 }

@@ -3,7 +3,7 @@
 \docType{data}
 \name{ctd}
 \alias{ctd}
-\title{CTD downcast measurements}
+\title{CTD downcast profiles}
 \format{
 An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 540 rows and 14 columns.
 }
@@ -11,7 +11,7 @@ An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) w
 ctd
 }
 \description{
-CTD downcast measurements
+CTD downcast profiles
 }
 \details{
 The condition and unit of each column were listed below.

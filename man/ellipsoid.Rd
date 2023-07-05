@@ -18,5 +18,5 @@ ellipsoid(Length, Width)
 Estimate the biovolume of individuals with ellipsoid equation.
 }
 \examples{
-Ellipsoid(10, 5)
+ellipsoid(10, 5)
 }

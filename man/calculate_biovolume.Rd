@@ -2,7 +2,7 @@
 % Please edit documentation in R/calculate_biovolume.R
 \name{calculate_biovolume}
 \alias{calculate_biovolume}
-\title{Calculate the biovolume of each individual}
+\title{Calculate the biovolume of each individual with their respective body shape types}
 \usage{
 calculate_biovolume(data)
 }

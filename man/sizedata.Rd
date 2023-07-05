@@ -5,7 +5,7 @@
 \alias{sizedata}
 \alias{macrofauna_measurements}
 \alias{macrofauna_biomass}
-\title{Individual size data of all cruises}
+\title{Individual macrofauna size data}
 \format{
 An object of class \code{data.frame} with 3980 rows and 17 columns.
 
@@ -17,7 +17,7 @@ macrofauna_measurements
 macrofauna_biomass
 }
 \description{
-Individual size data of all cruises
+Individual macrofauna size data
 }
 \details{
 The condition and unit of each column were listed below.

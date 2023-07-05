@@ -21,5 +21,5 @@ please see Fellwe & Warwick (1998).}
 Estimate the biovolume of individuals with a published shapeless conversion factors.
 }
 \examples{
-LWR(10, 20, 0.5)
+lwr(10, 20, 0.5)
 }

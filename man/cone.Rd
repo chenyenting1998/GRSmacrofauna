@@ -18,5 +18,5 @@ cone(Length, Width)
 Estimate the biovolume of individuals with cone equation.
 }
 \examples{
-Cone(30, 1)
+cone(30, 1)
 }

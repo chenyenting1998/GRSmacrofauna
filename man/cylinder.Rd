@@ -18,5 +18,5 @@ The volume
 Estimate the biovolume of individuals with cylinder equation.
 }
 \examples{
-Cylinder(15, 0.75)
+cylinder(15, 0.75)
 }
