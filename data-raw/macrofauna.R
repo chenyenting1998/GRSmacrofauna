@@ -106,8 +106,11 @@ or1_1242_macro_raw <-
   read_xlsx("data-raw/OR1_1242_macro_size_final.xlsx",
             col_types = c(rep("guess", 7), rep("text", 2), rep("guess", 8)))
 
-#
+# Change column entries
+# Taxon of one unknown from "Sea pen" to "Unknown"
 or1_1242_macro_raw[or1_1242_macro_raw$Taxon == "Sea pen", "Taxon"] <- "Unknown"
+# Condition of two unknowns from "X" to "F"
+or1_1242_macro_raw[or1_1242_macro_raw$Condition == "x", "Condition"] <- "F"
 
 # data cleaning
 or1_1242_macro_raw <-
@@ -136,6 +139,10 @@ or1_1219_poly <- clean_data(or1_1219_poly)
 or1_1242_poly <-
   read_xlsx("data-raw/OR1_1242_polychaeta_size.xlsx",
             col_types = c(rep("guess", 7), rep("text", 2), rep("guess", 7)))
+
+# Change column entries
+# Taxon of one unknown from "Sea pen" to "Unknown"
+or1_1242_poly[or1_1242_poly$Condition == "H", "Condition"] <- "FH"
 
 # data cleaning
 or1_1242_poly <- clean_data(or1_1242_poly)
