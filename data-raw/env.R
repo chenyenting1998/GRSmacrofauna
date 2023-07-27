@@ -79,8 +79,8 @@ env$Pressure <- NULL
 #################################
 # calculate distance to river mouth
 GRM <- c(120.423960, 22.470504) # gaoping rivermouth
-env$DRM <- distm(x = env[,c("Longitude", "Latitude")], y = GRM, fun = distGeo)/1000
-
+DRM <- distm(x = env[,c("Longitude", "Latitude")], y = GRM, fun = distGeo)/1000
+env$DRM <- as.vector(DRM)
 # relocate columns
 env
 env <- env[,c("Cruise", "Habitat", "Station", "Date", "Latitude", "Longitude", "Depth", "DRM",
