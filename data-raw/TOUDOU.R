@@ -51,6 +51,7 @@ dou_raw <- read.csv("data-raw/GPSC_dou.csv")
 tou <-
   clean_data(tou_raw) %>%
   # changing column names and values of DO flux
+  mutate(Habitat = "Shelf") %>%
   mutate(Incub_temperature = Temperature) %>%
   mutate(Incub_TOU = - DO_flux) %>%
   mutate(In_situ_temperature = In_situ_temperature) %>%
