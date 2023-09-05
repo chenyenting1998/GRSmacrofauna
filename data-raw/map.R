@@ -13,6 +13,7 @@
 ###################
 # Loading packages
 ###################
+rm(list = ls())
 library(readxl)
 library(writexl)
 library(dplyr)
@@ -24,7 +25,7 @@ library(ncdf4)
 # Bathy map #
 #############
 # read .nc
-map_nc_path <- dir(path = "data-raw/GEBCO_2020", pattern = "2020.nc", full.names = T)
+map_nc_path <- dir(path = "data-raw/GEBCO_2023", pattern = ".nc", full.names = T)
 map_nc <- nc_open(map_nc_path)
 
 # extract lon. and lat.
@@ -39,11 +40,6 @@ map <-
   cbind(Elevation = as.vector(Elevation))
 
 bathy_map <- map
-
-bathy_map <-
-  bathy_map %>%
-  filter(Longitude < 122 & Longitude > 108) %>%
-  filter(Latitude < 25.5 & Latitude > 18)
 
 ###########
 # GRS map #
