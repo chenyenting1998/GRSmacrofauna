@@ -48,9 +48,8 @@ Use the following code to download the package to your local R environment:
 ```
 if (sum(as.data.frame(installed.packages())$Package %in% "devtools") < 1) {
   install.packages("devtools")
-} else{
-  devtools::install_github("chenyenting1998/GRSmacrofauna")
 }
+devtools::install_github("chenyenting1998/GRSmacrofauna")
 ```
 
 # Author
